@@ -50,14 +50,18 @@ def get_source_code(url):
 def get_total_pages(url):
     source_code = get_source_code(url)
     soup = BeautifulSoup(source_code, 'lxml')
+    return get_total_pages_soup(soup)
+
+
+def get_total_pages_soup(soup):
     total_pages = 0
     try:
         page_info = soup.find('div', {'class': 'page-box house-lst-page-box'})
     except AttributeError as e:
         page_info = None
 
-    # if it doesnot get total page, then return default value 50
-    if page_info == None:
+    # if it does not get total page, then return default value 50
+    if page_info is None:
         return 50
     # '{"totalPage":5,"curPage":1}'
     page_info_str = page_info.get('page-data').split(',')[0]
@@ -167,3 +171,16 @@ def readurl_by_proxy(url):
         return None
 
     return source_code
+
+
+def get_float(str):
+    try:
+        return float(str)
+    except:
+        return 0
+
+def get_int(str):
+    try:
+        return int(str)
+    except:
+        return 0
